@@ -2,13 +2,6 @@ mod app;
 
 // use egui::{FontData, FontDefinitions, FontFamily};
 
-impl eframe::App for app::AliasApp {
-    fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame) {
-        self.ui(ctx);
-    }
-}
-
-
 // When compiling to web using trunk:
 #[cfg(target_arch = "wasm32")]
 fn main() {
@@ -38,7 +31,7 @@ fn main() {
                 Box::new(|cc| {
                     // note: todo: i want to fetch the font from the server and then add it here.
                     // add_fonts_to_ctx(&cc.egui_ctx);
-                    Ok(Box::new(app::AliasApp::default()))
+                    Ok(Box::new(app::App::default()))
                 }),
             )
             .await;
