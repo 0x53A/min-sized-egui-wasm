@@ -28,7 +28,7 @@ fn main() {
             .start(
                 canvas,
                 web_options,
-                Box::new(|cc| {
+                Box::new(|_cc| {
                     // note: todo: i want to fetch the font from the server and then add it here.
                     // add_fonts_to_ctx(&cc.egui_ctx);
                     Ok(Box::new(app::App::default()))
@@ -51,6 +51,15 @@ fn main() {
             }
         }
     });
+}
+
+#[cfg(not(target_arch = "wasm32"))]
+fn main() -> eframe::Result {
+    eframe::run_native(
+        "Minimum egui wasm template",
+        eframe::NativeOptions::default(),
+        Box::new(|_cc| Ok(Box::new(app::App::default()))),
+    )
 }
 
 // pub fn add_fonts_to_ctx(egui_ctx: &egui::Context) {

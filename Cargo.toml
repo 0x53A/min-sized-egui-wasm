@@ -1,3 +1,5 @@
+cargo-features = ["panic-immediate-abort"]
+
 [package]
 name = "min-sized-egui"
 version = "0.1.0"
@@ -8,19 +10,21 @@ name = "min-sized-egui-bin"
 path = "src/main.rs"
 
 [dependencies]
-eframe = { version = "0.31", default-features = false, features = [ "glow" ] } # you can see the default features here: https://github.com/emilk/egui/blob/master/crates/eframe/Cargo.toml#L34
-egui = { version = "0.31", default-features = false }
-env_logger = "0.11.8"
-log = "0.4.27"
+log = "0.4.33"
 
 [target.'cfg(target_arch = "wasm32")'.dependencies]
-js-sys = "0.3.77"
-wasm-bindgen = "0.2.100"
-wasm-bindgen-futures = "0.4.50"
-web-sys = { version = "0.3.77", features = [
+eframe = { version = "0.35", default-features = false, features = [ "glow" ] } # you can see the default features here: https://github.com/emilk/egui/blob/master/crates/eframe/Cargo.toml#L34
+wasm-bindgen-futures = "0.4.76"
+web-sys = { version = "0.3.103", features = [
+    "Document",
+    "Element",
+    "HtmlCanvasElement",
     "Performance",
     "Window"
   ] }
+
+[target.'cfg(not(target_arch = "wasm32"))'.dependencies]
+eframe = { version = "0.35", default-features = false, features = [ "glow", "wayland", "x11" ] }
 
 
 
@@ -33,7 +37,7 @@ lto = "fat"
 codegen-units = 1
 opt-level = "z"
 strip = true
-panic = "abort"
+panic = "immediate-abort"
 
 [profile.dev]
 #opt-level = "s"
