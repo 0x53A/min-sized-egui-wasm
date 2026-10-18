@@ -13,7 +13,8 @@ path = "src/main.rs"
 log = "0.4.33"
 
 [target.'cfg(target_arch = "wasm32")'.dependencies]
-eframe = { version = "0.35", default-features = false, features = [ "glow" ] } # you can see the default features here: https://github.com/emilk/egui/blob/master/crates/eframe/Cargo.toml#L34
+# Browser integrations remain available; omit the optional PNG clipboard image path.
+eframe = { version = "0.37", default-features = false, features = ["glow"] }
 wasm-bindgen-futures = "0.4.76"
 web-sys = { version = "0.3.103", features = [
     "Document",
@@ -24,12 +25,9 @@ web-sys = { version = "0.3.103", features = [
   ] }
 
 [target.'cfg(not(target_arch = "wasm32"))'.dependencies]
-eframe = { version = "0.35", default-features = false, features = [ "glow", "wayland", "x11" ] }
+eframe = { version = "0.37", default-features = false, features = ["glow", "wayland", "x11", "rust_fonts"] }
 
 
-
-
-[features]
 
 
 [profile.release]
@@ -41,3 +39,7 @@ panic = "immediate-abort"
 
 [profile.dev]
 #opt-level = "s"
+
+# Browser-only fonts and optional clipboard images from our egui fork.
+[patch.crates-io]
+eframe = { git = "https://github.com/0x53A/egui", rev = "fd415517ecd9f6379ffc8ff2081ed69de53f1201" }
